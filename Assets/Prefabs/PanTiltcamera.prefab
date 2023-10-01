@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2528604475659417576}
   - component: {fileID: 3271817502186909076}
   m_Layer: 0
-  m_Name: Wall_mount
+  m_Name: pan_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 546779173637257032}
   - component: {fileID: 6989040678837893783}
   m_Layer: 0
-  m_Name: CameraBody
+  m_Name: tilt_joint_CameraBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,9 +135,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4551172770884575099}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.08, y: -1.5100393, z: 0.7205026}
-  m_LocalScale: {x: 2, y: 1.0962987, z: 3.4022875}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.08, y: -1.5100391, z: 1.17}
+  m_LocalScale: {x: 2, y: 1.0962987, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1479335819017073711}
@@ -334,8 +334,8 @@ Transform:
   m_GameObject: {fileID: 5825836229147347747}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.003, y: -0.004, z: 0.37150088}
-  m_LocalScale: {x: 1, y: 1, z: 0.5}
+  m_LocalPosition: {x: -0.02, y: -0.004000687, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 0.42528594}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4148222556178272206}
