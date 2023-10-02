@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class PanTiltController : MonoBehaviour
 {
     public Transform panJoint; // Drag the PanJoint GameObject here in the inspector
@@ -11,15 +12,14 @@ public class PanTiltController : MonoBehaviour
     public float maxTilt = 90f;   // Maximum tilt angle (upwards)
     public float minTilt = -90f;  // Minimum tilt angle (downwards)
 
-    [SerializeField] 
-    private float current_tilt;
+    
 
     public float voltage_input = 0f;
     
     void Update()
     {
         voltage_input = GetVoltage();  //this function always returns 24V right now.
-        float timeSinceStart = Time.time; // Time since the start of the game in seconds
+        //float timeSinceStart = Time.time; // Time since the start of the game in seconds
 
         // Adjust pan and tilt speed based on motor coefficients
         
@@ -57,5 +57,14 @@ public class PanTiltController : MonoBehaviour
         //Typical pan/tilt camera systems, motors, etc. require 12v or 24v, so we'll use 12V
         return (24.0f);
     }
+    
+    
+    
+    float Estimation_Theoretic_Approach(Vector3 target_pos, float fl_y, float fl_x, float skew, float cx, float cy)
+    {
+        float eta = 0.0f;
+        return (eta);
+    }
+    
 
 }
