@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -11,6 +12,7 @@ public class PanTiltController : MonoBehaviour
     public float motorCoefficient = 100f; // degrees per (V * s^2). Assuming b1 and b2 are equal.
     public float maxTilt = 90f;   // Maximum tilt angle (upwards)
     public float minTilt = -90f;  // Minimum tilt angle (downwards)
+    public float calc_FOV = 0;    //calculated FOV
 
     
 
@@ -57,6 +59,17 @@ public class PanTiltController : MonoBehaviour
         //Typical pan/tilt camera systems, motors, etc. require 12v or 24v, so we'll use 12V
         return (24.0f);
     }
+
+    /*float  CalculateFOV(float sensor_x, float focal_length)
+    {
+        float fov_horizontal_new = 0.0f;
+
+        fov_horizontal_new = 2 * MathF.
+            
+            (MathF.Atan((sensor_x / (2 * focal_length)));
+    
+        return (fov_horizontal_new);
+    }
     
     
     
@@ -65,6 +78,6 @@ public class PanTiltController : MonoBehaviour
         float eta = 0.0f;
         return (eta);
     }
-    
+    */
 
 }
