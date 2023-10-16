@@ -13,6 +13,8 @@ public class PanTiltController : MonoBehaviour
     public float maxTilt = 90f;   // Maximum tilt angle (upwards)
     public float minTilt = -90f;  // Minimum tilt angle (downwards)
     public float calc_FOV = 0;    //calculated FOV
+    public float currentTiltAngle;
+    public float panRotation;
 
     
 
@@ -30,14 +32,14 @@ public class PanTiltController : MonoBehaviour
         // Adjust tilt speed linearly based on voltage, such that max speed is achieved at 24V
         float adjustedTiltSpeed = maxTiltAngularVelocity * (voltage_input / 24f);
     
-        float panRotation = Input.GetAxis("Horizontal") * adjustedPanSpeed * Time.deltaTime;
+        panRotation = Input.GetAxis("Horizontal") * adjustedPanSpeed * Time.deltaTime;
         float tiltRotation = Input.GetAxis("Vertical") * adjustedTiltSpeed * Time.deltaTime;
     
         // Apply pan rotation to PanJoint
         panJoint.Rotate(Vector3.up, panRotation); 
     
         // Calculate the new tilt angle based on current angle and input
-        float currentTiltAngle = tiltObject.localEulerAngles.x;
+        currentTiltAngle = tiltObject.localEulerAngles.x;
         float newTiltAngle = currentTiltAngle - tiltRotation; // Note: I've replaced "tilt" with "tiltRotation"
 
         // Convert to [-180, 180] range for correct clamping
