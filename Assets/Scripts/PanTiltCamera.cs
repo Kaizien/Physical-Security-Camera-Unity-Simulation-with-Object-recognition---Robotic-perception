@@ -6,7 +6,6 @@ public class PanTiltController : MonoBehaviour
 {
     public Transform panJoint; // Drag the PanJoint GameObject here in the inspector
     public Transform tiltObject; // Drag the Pan (cube) GameObject here in the inspector
-
     public float maxPanAngularVelocity = 100f;  // Degrees per second per the research paper provided
     public float maxTiltAngularVelocity = 100f;  // Degrees per second
     public float motorCoefficient = 100f; // degrees per (V * s^2). Assuming b1 and b2 are equal.
@@ -14,7 +13,12 @@ public class PanTiltController : MonoBehaviour
     public float minTilt = -90f;  // Minimum tilt angle (downwards)
     public float calc_FOV = 0;    //calculated FOV
     public float currentTiltAngle;
+    public float currentPanAngle;
     public float panRotation;
+    public float current_pan_velocity;
+    public float current_tilt_velocity;
+    public float current_target_location;
+    
 
     
 
@@ -40,7 +44,7 @@ public class PanTiltController : MonoBehaviour
     
         // Calculate the new tilt angle based on current angle and input
         currentTiltAngle = tiltObject.localEulerAngles.x;
-        float newTiltAngle = currentTiltAngle - tiltRotation; // Note: I've replaced "tilt" with "tiltRotation"
+        float newTiltAngle = currentTiltAngle - tiltRotation; 
 
         // Convert to [-180, 180] range for correct clamping
         if (newTiltAngle > 180) newTiltAngle -= 360;
@@ -50,6 +54,11 @@ public class PanTiltController : MonoBehaviour
 
         // Apply the clamped tilt rotation to TiltObject
         tiltObject.localEulerAngles = new Vector3(newTiltAngle, 0, 0);
+        currentTiltAngle = newTiltAngle;
+        currentPanAngle = panJoint.localEulerAngles.y;
+        
+    
+
     }
 
 

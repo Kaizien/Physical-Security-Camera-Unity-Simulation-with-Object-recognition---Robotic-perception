@@ -7,20 +7,57 @@ public class CameraFOV : MonoBehaviour
 {
     public Camera referenceCamera;
     public Material frustumMaterial;  // Drag your material here in the inspector
-
+    public Material target_Found_Mat;
+    public Material target_Missing_Mat;
+    public GameObject target;
     void Start()
     {
-        if (referenceCamera == null)
-        {
-            referenceCamera = Camera.main;
-        }
+        
 
-        MeshFilter meshFilter = GetComponent<MeshFilter>();
+
+       /* MeshFilter meshFilter = GetComponent<MeshFilter>();
         meshFilter.mesh = CreateFrustumMesh(referenceCamera);
         
         // Set the material
         MeshRenderer renderer = GetComponent<MeshRenderer>();
-        renderer.material = frustumMaterial;
+        renderer.material = frustumMaterial;*/
+       
+    }
+
+    void Update()
+    {
+        if (IsTargetVisible(target))
+        {
+            Debug.Log("TARGET FOUND\n");
+        }
+    }
+    
+    // Checks if the target is visible by the camera
+    public bool IsTargetVisible(GameObject target)
+    {
+
+        // Convert world position to viewport position
+        Vector3 viewportPoint = referenceCamera.WorldToViewportPoint(target.transform.position);
+
+        // Check if it's within the camera's frustum
+        bool isInsideFrustum = viewportPoint.z > 0 && viewportPoint.x >= 0 && viewportPoint.x <= 1 && viewportPoint.y >= 0 && viewportPoint.y <= 1;
+
+        if (!isInsideFrustum)
+        {
+            return false;  // If it's outside the frustum, it's not visible
+        }
+
+        // Cast a ray to check for obstructions
+        RaycastHit hit;
+        Vector3 direction = target.transform.position - referenceCamera.transform.position;
+
+        if (Physics.Raycast(referenceCamera.transform.position, direction, out hit))
+        {
+            // Check if the first object hit is the target
+            return hit.collider.gameObject == target;
+        }
+
+        return false;  // No ray hit means not visible
     }
 
     Mesh CreateFrustumMesh(Camera cam)
