@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
@@ -26,39 +27,35 @@ public class CameraFOV : MonoBehaviour
 
     void Update()
     {
-        if (IsTargetVisible(target))
-        {
-            Debug.Log("TARGET FOUND\n");
-        }
+        bool target_visibility = false;
+        target_visibility = IsTargetVisible(target);
+
     }
     
     // Checks if the target is visible by the camera
     public bool IsTargetVisible(GameObject target)
     {
-
-        // Convert world position to viewport position
         Vector3 viewportPoint = referenceCamera.WorldToViewportPoint(target.transform.position);
 
-        // Check if it's within the camera's frustum
-        bool isInsideFrustum = viewportPoint.z > 0 && viewportPoint.x >= 0 && viewportPoint.x <= 1 && viewportPoint.y >= 0 && viewportPoint.y <= 1;
-
-        if (!isInsideFrustum)
+        // Check if the target is within the camera's frustum
+        if (viewportPoint.z > 0 && viewportPoint.x > 0 && viewportPoint.x < 1 && viewportPoint.y > 0 && viewportPoint.y < 1)
         {
-            return false;  // If it's outside the frustum, it's not visible
+            // The target is within the camera's frustum
+
+            RaycastHit hit;
+            Vector3 direction = target.transform.position - referenceCamera.transform.position;
+
+            if (Physics.Raycast(referenceCamera.transform.position, direction, out hit, direction.magnitude))
+            {
+                if(hit.collider.GameObject() == target){ Debug.Log("TARGET FOUND! \n");}
+                return hit.collider.gameObject == target; // Returns true if the first object the ray hits is the target
+                
+            }
         }
-
-        // Cast a ray to check for obstructions
-        RaycastHit hit;
-        Vector3 direction = target.transform.position - referenceCamera.transform.position;
-
-        if (Physics.Raycast(referenceCamera.transform.position, direction, out hit))
-        {
-            // Check if the first object hit is the target
-            return hit.collider.gameObject == target;
-        }
-
-        return false;  // No ray hit means not visible
+        Debug.Log("TARGET NOT FOUND!\n");
+        return false; // Outside the camera's frustum or obstructed
     }
+
 
     Mesh CreateFrustumMesh(Camera cam)
     {
