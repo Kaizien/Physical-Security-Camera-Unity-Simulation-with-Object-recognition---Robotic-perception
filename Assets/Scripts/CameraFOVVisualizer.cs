@@ -12,7 +12,10 @@ public class CameraFOV : MonoBehaviour
     public Material target_Missing_Mat;
     public GameObject target;
 
-    private bool target_visibility = false;
+    public bool target_visibility = false;
+    public Vector3 target_position = Vector3.zero;
+    
+    
     void Start()
     {
         
@@ -32,9 +35,24 @@ public class CameraFOV : MonoBehaviour
         DrawCameraFrustum(referenceCamera); // Draw the frustum for the main camera
         target_visibility = IsTargetVisible(target); //attempt to find the target in the scene
         SwitchMaterial(target, target_visibility);  //change target's material if it is found in the scene
-        
+        target_position = GetTargetPos(target, target_visibility);
+
 
     }
+
+
+    public Vector3 GetTargetPos(GameObject target, bool target_found)
+    {
+        
+        if (target_found)
+        {
+            return target.transform.position;
+        }
+
+        return (Vector3.zero);
+
+    }
+    
     
     public bool IsTargetVisible(GameObject target)
     {
@@ -83,6 +101,8 @@ public class CameraFOV : MonoBehaviour
             }
         }
     }
+    
+    //
 
     
     //--------------------------- The code below helps us visualize the camera's frustum based on its sensor size and focal length ---------------------
