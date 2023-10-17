@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641228, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1514,7 +1514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5408508448545396241, guid: 303fa0b30b757be4889db029e64a03d3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.43
+      value: -6.07
       objectReference: {fileID: 0}
     - target: {fileID: 5408508448545396241, guid: 303fa0b30b757be4889db029e64a03d3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1522,7 +1522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5408508448545396241, guid: 303fa0b30b757be4889db029e64a03d3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.12
+      value: -9.84
       objectReference: {fileID: 0}
     - target: {fileID: 5408508448545396241, guid: 303fa0b30b757be4889db029e64a03d3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2619,9 +2619,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1513015379}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73e6d939e07419e4480f1cd61dfde4c8, type: 3}
+  m_Script: {fileID: 11500000, guid: b8ba625d464d485459d7ab8d12a2e9a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waypoints:
+  - {x: -7.43, y: 1.367, z: 6.69}
+  - {x: -0.04, y: 1.367, z: 6.69}
+  - {x: -0.04, y: 1.367, z: -9.84}
+  - {x: -0.04, y: 1.367, z: -9.84}
+  - {x: -6.07, y: 1.367, z: -9.84}
+  moveDuration: 3
+  waitDuration: 1
 --- !u!43 &1606615849
 Mesh:
   m_ObjectHideFlags: 0
@@ -2999,7 +3007,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5825836229147347747, guid: cc0d1fd0593a2ee4987215466f02b5cb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6220097457132297541, guid: cc0d1fd0593a2ee4987215466f02b5cb, type: 3}
       propertyPath: m_UseGravity
@@ -3078,7 +3086,7 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
+    width: 1.5
     height: 1
   near clip plane: 0.1
   far clip plane: 1000
@@ -3089,7 +3097,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingPath: -1
+  m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
@@ -3129,8 +3137,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   referenceCamera: {fileID: 1789434383}
   frustumMaterial: {fileID: 2100000, guid: 5a26de236ce89e94b963be8fa2b7ade6, type: 2}
-  target_Found_Mat: {fileID: 0}
-  target_Missing_Mat: {fileID: 0}
+  target_Found_Mat: {fileID: 2100000, guid: 79f64ed6f5d6d374d91c3a0af4070258, type: 2}
+  target_Missing_Mat: {fileID: 2100000, guid: c181c23a6120fbe4aadd5bb53a58dd78, type: 2}
   target: {fileID: 1513015379}
 --- !u!23 &1789434386
 MeshRenderer:

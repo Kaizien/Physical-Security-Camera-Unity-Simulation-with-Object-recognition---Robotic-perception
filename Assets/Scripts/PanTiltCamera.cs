@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -37,8 +38,9 @@ public class PanTiltController : MonoBehaviour
         float adjustedTiltSpeed = maxTiltAngularVelocity * (voltage_input / 24f);
     
         panRotation = Input.GetAxis("Horizontal") * adjustedPanSpeed * Time.deltaTime;
-        float tiltRotation = Input.GetAxis("Vertical") * adjustedTiltSpeed * Time.deltaTime;
-    
+        current_pan_velocity = Mathf.Clamp(Mathf.Abs(panRotation)*adjustedPanSpeed, 0, 100); //calculate the current pan speed for the display
+        float tiltRotation = Input.GetAxis("Vertical") * adjustedTiltSpeed * Time.deltaTime; 
+        current_tilt_velocity = Mathf.Clamp(Mathf.Abs(tiltRotation), 0, 100); //calculate current tilt speed for the display
         // Apply pan rotation to PanJoint
         panJoint.Rotate(Vector3.up, panRotation); 
     

@@ -7,10 +7,12 @@ using UnityEngine;
 public class CameraFOV : MonoBehaviour
 {
     public Camera referenceCamera;
-    public Material frustumMaterial;  // Drag your material here in the inspector
+    public Material frustumMaterial;  
     public Material target_Found_Mat;
     public Material target_Missing_Mat;
     public GameObject target;
+
+    private bool target_visibility = false;
     void Start()
     {
         
@@ -27,8 +29,10 @@ public class CameraFOV : MonoBehaviour
 
     void Update()
     {
-        bool target_visibility = false;
-        target_visibility = IsTargetVisible(target);
+        DrawCameraFrustum(referenceCamera); // Draw the frustum for the main camera
+        target_visibility = IsTargetVisible(target); //attempt to find the target in the scene
+        SwitchMaterial(target, target_visibility);  //change target's material if it is found in the scene
+        
 
     }
     
@@ -61,52 +65,66 @@ public class CameraFOV : MonoBehaviour
         Debug.Log("TARGET NOT FOUND!");
         return false; // Outside the camera's frustum or obstructed
     }
-
-
-    Mesh CreateFrustumMesh(Camera cam)
+    
+    
+    public void SwitchMaterial(GameObject target, bool useMaterial1)
     {
-        Mesh mesh = new Mesh();
+        Renderer rend = target.GetComponent<Renderer>();
 
-        Vector3[] vertices = new Vector3[8];
-
-        float tanFov = Mathf.Tan(cam.fieldOfView * 0.5f * Mathf.Deg2Rad);
-        float nearHeight = tanFov * cam.nearClipPlane * 2.0f;
-        float nearWidth = nearHeight * cam.aspect;
-
-        float farHeight = tanFov * cam.farClipPlane * 2.0f;
-        float farWidth = farHeight * cam.aspect;
-
-        // Near plane vertices
-        vertices[0] = new Vector3(-nearWidth * 0.5f, -nearHeight * 0.5f, cam.nearClipPlane);
-        vertices[1] = new Vector3(nearWidth * 0.5f, -nearHeight * 0.5f, cam.nearClipPlane);
-        vertices[2] = new Vector3(nearWidth * 0.5f, nearHeight * 0.5f, cam.nearClipPlane);
-        vertices[3] = new Vector3(-nearWidth * 0.5f, nearHeight * 0.5f, cam.nearClipPlane);
-
-        // Far plane vertices
-        vertices[4] = new Vector3(-farWidth * 0.5f, -farHeight * 0.5f, cam.farClipPlane);
-        vertices[5] = new Vector3(farWidth * 0.5f, -farHeight * 0.5f, cam.farClipPlane);
-        vertices[6] = new Vector3(farWidth * 0.5f, farHeight * 0.5f, cam.farClipPlane);
-        vertices[7] = new Vector3(-farWidth * 0.5f, farHeight * 0.5f, cam.farClipPlane);
-
-        int[] triangles = {
-            // Near plane
-            0, 1, 2, 0, 2, 3,
-            // Far plane
-            4, 6, 5, 4, 7, 6,
-            // Left side
-            4, 0, 3, 4, 3, 7,
-            // Right side
-            5, 2, 1, 5, 6, 2,
-            // Top
-            3, 2, 6, 3, 6, 7,
-            // Bottom
-            4, 5, 1, 4, 1, 0
-        };
-
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-
-        return mesh;
+        if (rend != null) // Check if the target has a renderer
+        {
+            if (useMaterial1)
+            {
+                rend.material = target_Found_Mat;
+            }
+            else
+            {
+                rend.material = target_Missing_Mat;
+            }
+        }
     }
+
+    
+    //--------------------------- The code below helps us visualize the camera's frustum based on its sensor size and focal length ---------------------
+    void DrawCameraFrustum(Camera cam)
+    {
+        float originalFOV = cam.fieldOfView;
+        cam.fieldOfView = CalculatePhysicalCameraFOV(cam); // Set to the physical camera's calculated FOV
+        
+        // Calculate the frustum corners for the near and far clipping planes
+        Vector3[] nearCorners = new Vector3[4];
+        Vector3[] farCorners = new Vector3[4];
+        cam.CalculateFrustumCorners(new Rect(0, 0, 1, 1), cam.nearClipPlane, Camera.MonoOrStereoscopicEye.Mono, nearCorners);
+        cam.CalculateFrustumCorners(new Rect(0, 0, 1, 1), cam.farClipPlane, Camera.MonoOrStereoscopicEye.Mono, farCorners);
+
+        // Convert the corners from local to world space
+        for (int i = 0; i < 4; i++)
+        {
+            nearCorners[i] = cam.transform.TransformPoint(nearCorners[i]);
+            farCorners[i] = cam.transform.TransformPoint(farCorners[i]);
+        }
+
+        // Draw the lines connecting the corners
+        for (int i = 0; i < 4; i++)
+        {
+            int next = (i + 1) % 4; // Get the index of the next corner (to loop around and connect the last corner to the first)
+
+            // Draw lines for the near clipping plane, far clipping plane, and lines connecting near to far
+            Debug.DrawLine(nearCorners[i], nearCorners[next], Color.green);
+            Debug.DrawLine(farCorners[i], farCorners[next], Color.green);
+            Debug.DrawLine(nearCorners[i], farCorners[i], Color.green);
+        }
+        cam.fieldOfView = originalFOV; // Reset to the original FOV after drawing
+    }
+
+    float CalculatePhysicalCameraFOV(Camera cam)
+    {
+        // Assuming a horizontal sensor (adjust if using a vertical sensor)
+        float sensorSize = cam.sensorSize.x;
+        float fov = 2.0f * Mathf.Atan(sensorSize / (2.0f * cam.focalLength)) * Mathf.Rad2Deg;
+        return fov;
+    }
+
+
 }
 
