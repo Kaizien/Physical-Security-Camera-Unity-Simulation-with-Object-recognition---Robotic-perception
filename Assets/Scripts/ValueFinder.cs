@@ -8,6 +8,7 @@ public class ValueFinder : MonoBehaviour
 {
     //G: add TMP game objects for each value
     public TextMeshProUGUI tiltAngleValue;
+    public TextMeshProUGUI PanAngleValue;
     
     
     
@@ -19,6 +20,7 @@ public class ValueFinder : MonoBehaviour
     private PanTiltController sourceScript;
 
     public float test_tilt_angleValue = 0f;
+    public float test_pan_angleValue = 0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +32,9 @@ public class ValueFinder : MonoBehaviour
     {
         test_tilt_angleValue = sourceScript.currentTiltAngle;
         tiltAngleValue.text = test_tilt_angleValue.ToString();
+
+        test_pan_angleValue = sourceScript.currentPanAngle;
+        PanAngleValue.text = test_pan_angleValue.ToString();
 
 
     }
