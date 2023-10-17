@@ -50,10 +50,10 @@ public class ValueFinder : MonoBehaviour
         PanAngleValue.text = test_pan_angleValue.ToString();
 
         test_tilt_velocityValue = sourceScript.current_tilt_velocity;
-        tiltVelocityValue.text = test_tilt_velocityValue.ToString();
+        tiltVelocityValue.text = (test_tilt_velocityValue.ToString() + " deg/s");
 
         test_pan_velocityValue = sourceScript.current_pan_velocity;
-        panVelocityValue.text = test_pan_velocityValue.ToString();
+        panVelocityValue.text = (test_pan_velocityValue.ToString() + " deg/s");
 
         test_target_visibility = sourceScript2.target_visibility;
         if (test_target_visibility)

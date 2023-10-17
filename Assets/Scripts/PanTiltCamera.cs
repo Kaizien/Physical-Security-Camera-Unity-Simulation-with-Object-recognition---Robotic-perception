@@ -18,7 +18,7 @@ public class PanTiltController : MonoBehaviour
     public float panRotation;
     public float current_pan_velocity;
     public float current_tilt_velocity;
-    public float current_target_location;
+   
     
 
     
@@ -40,7 +40,7 @@ public class PanTiltController : MonoBehaviour
         panRotation = Input.GetAxis("Horizontal") * adjustedPanSpeed * Time.deltaTime;
         current_pan_velocity = Mathf.Clamp(Mathf.Abs(panRotation)*adjustedPanSpeed, 0, 100); //calculate the current pan speed for the display
         float tiltRotation = Input.GetAxis("Vertical") * adjustedTiltSpeed * Time.deltaTime; 
-        current_tilt_velocity = Mathf.Clamp(Mathf.Abs(tiltRotation), 0, 100); //calculate current tilt speed for the display
+        current_tilt_velocity = Mathf.Clamp(Mathf.Abs(tiltRotation)*adjustedTiltSpeed, 0, 100); //calculate current tilt speed for the display
         // Apply pan rotation to PanJoint
         panJoint.Rotate(Vector3.up, panRotation); 
     
